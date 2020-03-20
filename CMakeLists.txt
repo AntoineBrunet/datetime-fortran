@@ -16,7 +16,19 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
 endif()
 
 # library to archive (libdatetime.a)
-add_library(datetime src/lib/datetime.f90 src/lib/mod_datetime.f90 src/lib/mod_timedelta.f90 src/lib/mod_clock.f90 src/lib/mod_strftime.f90 src/lib/mod_constants.f90)
+set(EXTRA_FILES)
+if (WIN32)
+  set(EXTRA_FILES src/lib/strptime.c)
+endif()
+add_library(datetime
+  src/lib/datetime.f90
+  src/lib/mod_datetime.f90
+  src/lib/mod_timedelta.f90
+  src/lib/mod_clock.f90
+  src/lib/mod_strftime.f90
+  src/lib/mod_constants.f90
+  ${EXTRA_FILES}
+)
 
 # tests
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
